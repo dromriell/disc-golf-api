@@ -40,7 +40,7 @@ class Disc(models.Model):
          MaxValueValidator(5),
          MinValueValidator(0)
       ]
-   ),
+   )
    weight = models.IntegerField(
       default=0,
       blank=True,
@@ -49,7 +49,8 @@ class Disc(models.Model):
          MaxValueValidator(500),
          MinValueValidator(0)
       ]
-   ),
+   )
+   plastic = models.CharField(max_length=20, blank=True, null=True)
    color = models.CharField(max_length=20),
    img_url = models.URLField(
       validators=[URLValidator]
@@ -57,4 +58,4 @@ class Disc(models.Model):
    img_alt = models.CharField(max_length=20)
 
    def __str__(self):
-      return self.name
+      return f'{self.manufacturer} {self.name}'
