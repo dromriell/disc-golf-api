@@ -31,10 +31,15 @@ class HoleScore(models.Model):
    def __str__(self):
       return f'{self.score_card} {self.hole} Score'
 
+   def update_score_field(self):
+      update_score = self.strokes.count()
+      self.score = update_score
+      self.save()
+
 
 class Stroke(models.Model):
    id = models.BigAutoField(primary_key=True)
-   hole = models.ForeignKey(HoleScore, on_delete=models.CASCADE, related_name='strokes')
+   hole_score = models.ForeignKey(HoleScore, on_delete=models.CASCADE, related_name='strokes')
    position = models.PointField()
    throw = models.CharField(max_length=30)
    disc = models.ForeignKey(Disc, on_delete=models.SET_NULL, null=True, blank=False)
