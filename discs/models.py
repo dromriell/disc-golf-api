@@ -1,10 +1,12 @@
+import datetime
+from django.core import validators
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator, URLValidator
 
-# Create your models here.
+
 class Disc(models.Model):
    name = models.CharField(max_length=30)
-   manufacturer = models.CharField(max_length=40)
+   manufacturer = models.OneToOneField('Manufacturer', on_delete=models.SET_NULL, null=True, blank=True)
    speed = models.IntegerField(
       default=1,
       blank=False,
@@ -58,4 +60,30 @@ class Disc(models.Model):
    img_alt = models.CharField(max_length=20)
 
    def __str__(self):
-      return f'{self.manufacturer} {self.name}'
+      return f'{self.manufacturer} {self.name.title()}'
+
+
+def current_year():
+      return datetime.date.today().year
+
+def max_year_validator(value):
+   return MaxValueValidator(current_year())(value)
+
+
+class Manufacturer(models.Model):
+   name = models.CharField(max_length=50)
+   established = models.IntegerField(
+      default=current_year(),
+      validators=[
+         max_year_validator,
+         MinValueValidator(1900),
+      ])
+   location = models.CharField(max_length=25)
+   is_defunct = models.BooleanField(default=False)
+
+   def __str__(self):
+      return f'{self.name.title()}'
+
+   
+
+
