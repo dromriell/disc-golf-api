@@ -4,7 +4,7 @@ from .views import DiscViewSet
 
 
 router = routers.DefaultRouter()
-router.register(r'discs', DiscViewSet)
+router.register(r'list', DiscViewSet)
 
 urlpatterns = [
    path('', include(router.urls)),
