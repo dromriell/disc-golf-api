@@ -36,7 +36,7 @@ class GameHoleScoreSerializer(serializers.ModelSerializer):
    strokes = GameStrokeSerializer(many=True)
    class Meta:
       model = HoleScore
-      fields = ('score', 'hole', 'strokes')
+      fields = '__all__'
 
 
 class GameScoreCardSerializer(serializers.ModelSerializer):
@@ -44,7 +44,7 @@ class GameScoreCardSerializer(serializers.ModelSerializer):
 
    class Meta:
       model = ScoreCard
-      fields = ('player', 'total_score', 'scores')
+      fields = '__all__'
 
 
 class GameSerializer(serializers.ModelSerializer):
