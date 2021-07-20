@@ -13,14 +13,24 @@ class Game(models.Model):
    date = models.DateTimeField()
    isInProgress = models.BooleanField(default=True)
 
+   class Meta:
+        ordering = ('-date',)
+
+   def __str__(self):
+      return f'{self.course} {self.date}'
+
 
 class ScoreCard(models.Model):
    player = models.ForeignKey(USER, on_delete=models.SET_NULL, null=True, blank=False)
    game = models.ForeignKey(Game, on_delete=models.SET_NULL, null=True, related_name='scorecards')
    total_score = models.IntegerField(default=0)
 
+   class Meta:
+        ordering = ('-id',)
+        get_latest_by = '-game__date'
+
    def __str__(self):
-      return f'{self.player.username.title()}\'s Scorecard {self.game.date.date()}'
+      return f'{self.player.username.title()}\'s Scorecard {self.game}'
 
 
 class HoleScore(models.Model):
@@ -47,7 +57,7 @@ class Stroke(models.Model):
    isHole = models.BooleanField(default=False)
 
    def __str__(self):
-      return f'{self.hole.hole} {self.dist}ft Throw'
+      return f'{self.hole_score.hole} {self.dist}ft Throw'
 
    def parse_coordinates(self, field):
       return parse_pointfield(field)
