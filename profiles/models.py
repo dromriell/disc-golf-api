@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models.signals import post_save
 from django.contrib.auth import get_user_model
+from games.models import ScoreCard
 from discs.models import Disc
 
 USER = get_user_model()
@@ -15,6 +16,11 @@ class Profile(models.Model):
 
    def __str__(self):
       return f'{self.user.username}\'s Profile'
+
+   def get_last_game(self):
+      last_game = ScoreCard.objects.filter(player=self.user.id).latest()
+      print(last_game)
+      return last_game
 
 def user_created(sender, instance, created, *args, **kwargs):
    if created:
