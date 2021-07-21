@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+
+from .views import PDGAPIView
 from users.views import CustomObtainAuthToken
 
 urlpatterns = [
@@ -23,5 +25,6 @@ urlpatterns = [
     path('api/v1/courses/', include('courses.api.urls')),
     path('api/v1/profiles/', include('profiles.api.urls')),
     path('api/v1/games/', include('games.api.urls')),
-    path('api-token-auth/', CustomObtainAuthToken.as_view(), name='api-token-auth')
+    path('api-token-auth/', CustomObtainAuthToken.as_view(), name='api-token-auth'),
+    path('api-pdga/auth/', PDGAPIView.as_view(), name='pdga-auth'),
 ]
