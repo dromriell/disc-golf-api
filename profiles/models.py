@@ -8,8 +8,9 @@ USER = get_user_model()
 
 # Create your models here.
 class Profile(models.Model):
-   user = models.OneToOneField(USER, on_delete=models.CASCADE)
-   location = models.CharField(max_length=200, null=True, blank=True)
+   user = models.OneToOneField(USER, on_delete=models.CASCADE, related_name='user_profile')
+   city = models.CharField(max_length=70, null=True, blank=True)
+   state = models.CharField(max_length=2, null=True, blank=True)
    bio = models.TextField(blank=True, null=True)
    friends = models.ManyToManyField(USER, related_name='friends', blank=True)
    disc_bag = models.ManyToManyField(Disc, related_name='disc_bag', blank=True)
