@@ -7,7 +7,7 @@ from ..serializers import (
    GameSerializer,
    ScoreCardSerializer,
    GameHoleScoreSerializer,
-   StrokeSerializer
+   GameSummarySerializer
    )
 
 
@@ -54,4 +54,21 @@ class HoleScoreViewSet(ModelViewSet):
          return HoleScore.objects.filter(score_card__player=spec_user)
    
       return HoleScore.objects.filter(score_card__player=req_user)
+
+
+class GameSummaryViewSet(ModelViewSet):
+   authentication_classes = [TokenAuthentication, SessionAuthentication]
+   permission_classes = [IsAuthenticated]
+
+   serializer_class = GameSummarySerializer
+
+   def get_queryset(self):
+      req_user = self.request.user
+      spec_user = self.request.query_params.get('user', None)
+
+      if spec_user:
+         USER.objects.get(id=spec_user)
+         return ScoreCard.objects.filter(player=spec_user)[:5]
+   
+      return ScoreCard.objects.filter(player=req_user.id)[:5]
 

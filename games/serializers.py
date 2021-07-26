@@ -7,6 +7,7 @@ from django.contrib.gis.geos import Point
 from rest_framework import serializers
 from .models import Game, ScoreCard, HoleScore, Stroke
 from courses.models import Course, Hole
+from courses.serializers import CourseSummarySerializer
 
 USER = get_user_model()
 
@@ -143,11 +144,12 @@ class BasicGameSerializer(serializers.ModelSerializer):
    """
    Returns all model fields excluding the Many-to-One Scorecard field
    """
+   course = CourseSummarySerializer(read_only=True)
    class Meta:
       model = Game
       fields = '__all__'
 
-class LastGameSummarySerializer(serializers.ModelSerializer):
+class GameSummarySerializer(serializers.ModelSerializer):
    """
    Serializer for returning a players last game summary. 
    Used with the ProfileSerializer 
