@@ -7,6 +7,7 @@ from DG_API.utils.db import parse_pointfield
 # Create your models here.
 
 class Course(models.Model):
+   pdga_id = models.IntegerField(blank=True, null=True)
    name = models.CharField(max_length=100)
    city = models.CharField(max_length=100)
    state = models.CharField(max_length=2, null=True, blank=True)
