@@ -9,6 +9,8 @@ from django.conf import settings
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from courses.models import Course
+
 PDGA_BASE_URL = 'api.pdga.com'
 PDGA_CACHE_KEY = 'pdga_auth'
 
@@ -121,7 +123,7 @@ class PDGAPIView(APIView):
       if lat is not None and lng is not None:
          coords = f'latitude={lat}&longitude={lng}'
       else:
-         auth_400_response = {'status': 400, 'error': 'No query parameters were found'}
+         auth_400_response = {'status': 400, 'error': 'No query parameters were found. Please provide lat and lng.'}
          return Response(auth_400_response)
 
       api_connection = http.client.HTTPSConnection(PDGA_BASE_URL)
@@ -138,6 +140,19 @@ class PDGAPIView(APIView):
       response = api_connection.getresponse()
       str_response = response.read().decode()
       json_response = json.loads(str_response)
+
+      for course in json_response['courses']:
+         try:
+            course_object = Course.objects.get(pdga_id=int(course['course_id']))
+            course['id'] = course_object.id
+            course['image_url'] = course_object.image_url
+            course['image_alt'] = course_object.image_alt
+         except Course.DoesNotExist:
+            course['id'] = None
+            course['image_url'] = None
+            course['image_alt'] = None
+            continue
+
       if response.status == 401:
          auth_401_response = {'status': response.status, 'error': json_response[0]}
          return Response(auth_401_response)
@@ -165,15 +180,18 @@ class PDGAPIView(APIView):
 
       # Conditional check on connection to api
       if pdga_auth:
-         status = 'connected to api'
+         status = 200
+         msg = 'connected to api'
       else:
-         status = 'not connected to api'
+         status = 500
+         msg = 'not connected to api'
 
       return Response({
          # Provide a default response to help find correct endpoint and to
          # check on the sessions status
          'HEADER': 'Please use one of the following query params:',
-         'STATUS': {status},
+         'status': status,
+         'msg': msg,
          'valid_params': {
             'login': 'Create a new session with the PDGA API',
             'logout': 'Terminate an existing session',
