@@ -19,12 +19,15 @@ class Profile(models.Model):
       return f'{self.user.username}\'s Profile'
 
    def get_last_game(self):
-      last_game = ScoreCard.objects.filter(player=self.user.id).latest()
-      print(last_game)
+      try:
+         last_game = ScoreCard.objects.filter(player=self.user.id).latest()
+      except ScoreCard.DoesNotExist:
+         last_game = None
+      print('get_last_game here', last_game)
       return last_game
 
 def user_created(sender, instance, created, *args, **kwargs):
    if created:
-      Profile.objects.get_or_create(user=instance)
+      Profile.objects.get_or_create(user=instance, state=instance.state)
 
 post_save.connect(user_created, sender=USER)
