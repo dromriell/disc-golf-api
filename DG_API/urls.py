@@ -25,6 +25,7 @@ urlpatterns = [
     path('api/v1/courses/', include('courses.api.urls')),
     path('api/v1/profiles/', include('profiles.api.urls')),
     path('api/v1/games/', include('games.api.urls')),
+    path('api/v1/users/', include('users.api.urls')),
     path('api-token-auth/', CustomObtainAuthToken.as_view(), name='api-token-auth'),
     path('api-pdga/auth/', PDGAPIView.as_view(), name='pdga-auth'),
 ]
