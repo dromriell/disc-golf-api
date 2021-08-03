@@ -2,7 +2,6 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.contrib.auth import get_user_model
 from games.models import ScoreCard
-from discs.models import Disc
 
 USER = get_user_model()
 
@@ -13,7 +12,6 @@ class Profile(models.Model):
    state = models.CharField(max_length=2, null=True, blank=True)
    bio = models.TextField(blank=True, null=True)
    friends = models.ManyToManyField(USER, related_name='friends', blank=True)
-   disc_bag = models.ManyToManyField(Disc, related_name='disc_bag', blank=True)
 
    def __str__(self):
       return f'{self.user.username}\'s Profile'
