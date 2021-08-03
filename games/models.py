@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
 from DG_API.utils.db import parse_pointfield
 from courses.models import Course, Hole
-from discs.models import Disc
+from discs.models import UserDisc
 
 USER = get_user_model()
 
@@ -52,7 +52,7 @@ class Stroke(models.Model):
    hole_score = models.ForeignKey(HoleScore, on_delete=models.CASCADE, related_name='strokes')
    position = models.PointField()
    throw = models.CharField(max_length=30)
-   disc = models.ForeignKey(Disc, on_delete=models.SET_NULL, null=True, blank=False)
+   disc = models.ForeignKey(UserDisc, on_delete=models.SET_NULL, null=True, blank=False)
    dist = models.FloatField()
    isHole = models.BooleanField(default=False)
 
