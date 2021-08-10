@@ -1,12 +1,24 @@
-from django.db.models import query
-from rest_framework import serializers
+from rest_framework.authentication import TokenAuthentication, SessionAuthentication
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
-from ..models import Disc
-from ..serializers import DiscSerializer
+from ..models import Disc, UserDisc
+from ..serializers import DiscSerializer, UserDiscSerializer
 
 class DiscViewSet(ModelViewSet):
    queryset = Disc.objects.all()
    serializer_class = DiscSerializer
+
+
+class UserDiscViewSet(ModelViewSet):
+   authentication_classes = [TokenAuthentication, SessionAuthentication]
+   permission_classes = [IsAuthenticated]
+   serializer_class = UserDiscSerializer
+
+   def get_queryset(self):
+      user = self.request.user
+      queryset_all = UserDisc.objects.filter(profile=user.user_profile)
+
+      return queryset_all
 
 
 class DiscSearchViewSet(ModelViewSet):
@@ -14,7 +26,7 @@ class DiscSearchViewSet(ModelViewSet):
 
    def get_queryset(self):
       search_term = self.request.query_params.get('term', None)
-      
+
       # Do not filter on queries less than two chars in length.
       if not search_term or len(search_term) < 2:
          return []
