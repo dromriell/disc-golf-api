@@ -40,3 +40,32 @@ class DiscSearchViewSet(ModelViewSet):
          queryset = Disc.objects.filter(name__icontains=search_term)
 
       return queryset
+
+
+class RelatedDiscViewSet(ModelViewSet):
+   # Test viewset to find similar discs based on certain properties
+   authentication_classes = [TokenAuthentication, SessionAuthentication]
+   permission_classes = [IsAuthenticated]
+   serializer_class = DiscSerializer
+
+   def get_queryset(self):
+      user = self.request.user
+      weight = self.request.query_params.get('weight', None)
+      diameter = self.request.query_params.get('diameter', None)
+      height = self.request.query_params.get('height', None)
+      rim_depth = self.request.query_params.get('rim_depth', None)
+      inside_rim_diameter = self.request.query_params.get('inside_rim_diameter', None)
+      rim_thickness = self.request.query_params.get('rim_thickness', None)
+      rim_depth_to_diameter = self.request.query_params.get('rim_ratio', None)
+      rim_configuration = self.request.query_params.get('rim_config', None)
+      flexibility = self.request.query_params.get('flexibility', None)
+      
+      queryset = Disc.objects.filter(
+         weight=weight
+      ).filter(
+         rim_depth_to_diameter=rim_depth_to_diameter
+      ).filter(
+         flexibility=flexibility
+      )
+
+      return queryset
