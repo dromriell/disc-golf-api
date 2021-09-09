@@ -29,7 +29,7 @@ PDGA_PW = os.environ['PDGA_PASSWORD']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.4.39']
 
 # GDAL Conditional path
 if os.name == 'nt':
@@ -176,6 +176,7 @@ REST_FRAMEWORK = {
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
+    'http://192.168.4.39:19000',
 ]
 
 CORS_ALLOW_HEADERS = list(default_headers) + [
