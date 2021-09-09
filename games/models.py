@@ -30,7 +30,7 @@ class ScoreCard(models.Model):
         get_latest_by = '-game__date'
 
    def __str__(self):
-      return f'{self.player.username.title()}\'s Scorecard {self.game}'
+      return f'{self.player}\'s Scorecard {self.game}'
 
 
 class HoleScore(models.Model):
