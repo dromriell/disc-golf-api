@@ -42,12 +42,10 @@ class PDGAPIView(APIView):
 
       response = api_connection.getresponse()
       str_response = response.read().decode()
-      print(str_response, response.status)
       json_response = json.loads(str_response)
       if response.status == 401:
          auth_401_response = {'status': response.status, 'error': json_response[0]}
          return Response(auth_401_response)
-      print(json_response)
       cache.set(PDGA_CACHE_KEY, json_response, None)
       return Response(json_response)
 
@@ -55,7 +53,6 @@ class PDGAPIView(APIView):
       """
       Submit request to end current session and clear credentials from cache
       """
-      print('LOGOUT')
       api_connection = http.client.HTTPSConnection(PDGA_BASE_URL)
       headers = {
            'X-CSRF-Token': session_data['token'],
@@ -70,12 +67,11 @@ class PDGAPIView(APIView):
 
       response = api_connection.getresponse()
       str_response = response.read().decode()
-      print(str_response, response.status)
       json_response = json.loads(str_response)
       if response.status == 406:
          auth_406_response = {'status': response.status, 'error': json_response[0]}
+         cache.delete(PDGA_CACHE_KEY)
          return Response(auth_406_response)
-      print(json_response)
       cache.delete(PDGA_CACHE_KEY)
       return Response(json_response)
 
@@ -84,7 +80,6 @@ class PDGAPIView(APIView):
       Request for upcoming events. Should set event parameter equal to users
       current state. By default, will return all events within the next 90 days.
       """
-      print("EVENTS", event_params)
       today_date = datetime.date.today()
 
       start_date = f'start_date={today_date.isoformat()}'
