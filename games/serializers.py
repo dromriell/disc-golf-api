@@ -1,5 +1,5 @@
 import datetime
-from discs.models import Disc
+from discs.models import UserDisc
 from courses.models import Hole
 from django.db import models
 from django.contrib.auth import get_user_model
@@ -64,8 +64,8 @@ class GameHoleScoreSerializer(serializers.ModelSerializer):
       
          internal_stroke = {
             'position': Point(stroke['lng'], stroke['lat'], srid=4326),
-            'throw': 'backhand', # TEST VALUE
-            'disc': Disc.objects.get(id=1), # TEST VALUE 
+            'throw': stroke['throw'],
+            'disc': UserDisc.objects.get(id=stroke['disc']['id']),
             'dist': stroke['dist'],
             'isHole': is_hole
             }
