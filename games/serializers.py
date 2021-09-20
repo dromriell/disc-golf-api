@@ -65,7 +65,7 @@ class GameHoleScoreSerializer(serializers.ModelSerializer):
          internal_stroke = {
             'position': Point(stroke['lng'], stroke['lat'], srid=4326),
             'throw': stroke['throw'],
-            'disc': UserDisc.objects.get(id=stroke['disc']['id']),
+            'disc': UserDisc.objects.get(id=stroke['disc']),
             'dist': stroke['dist'],
             'isHole': is_hole
             }
