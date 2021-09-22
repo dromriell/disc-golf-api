@@ -12,8 +12,10 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 import django_heroku
 import os
+import psycopg2
 from pathlib import Path
 from corsheaders.defaults import default_headers
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,7 +31,8 @@ PDGA_PW = os.environ['PDGA_PASSWORD']
 DATABASE_URL = os.environ['DATABASE_URL']
 DB_UN = os.environ['DB_USERNAME']
 DB_PW = os.environ['DB_PASSWORD']
-GDAL_LIBRARY_PATH = os.getenv('GDAL_LIBRARY_PATH')
+
+conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -199,3 +202,5 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())
+
+DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
