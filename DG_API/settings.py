@@ -151,24 +151,6 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
-# Activate Django-Heroku.
-django_heroku.settings(locals())
-
-
-# Database
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'dg-app-db',
-        'USER': DB_UN,
-        'PASSWORD': DB_PW,
-        'HOST': DATABASE_URL,
-        'PORT': '5432',
-    }
-}
-
 # Cache
 # https://docs.djangoproject.com/en/3.2/topics/cache/
 
@@ -204,3 +186,21 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
 ]
 
 # DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+
+# Activate Django-Heroku.
+django_heroku.settings(locals())
+
+
+# Database
+# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': 'd3j0b7qn26sgck',
+        'USER': DB_UN,
+        'PASSWORD': DB_PW,
+        'HOST': DATABASE_URL,
+        'PORT': '5432',
+    }
+}
