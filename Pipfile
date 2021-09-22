@@ -11,6 +11,9 @@ djangorestframework = "*"
 psycopg2 = "*"
 httpie = "*"
 django-cors-headers = "*"
+whitenoise = "*"
+gunicorn = "*"
+django-heroku = "*"
 
 [requires]
 python_version = "3.8"
