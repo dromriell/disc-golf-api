@@ -106,6 +106,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'DG_API.wsgi.application'
 
+# Activate Django-Heroku.
+django_heroku.settings(locals())
+
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -199,8 +202,5 @@ CORS_ALLOWED_ORIGINS = [
 CORS_ALLOW_HEADERS = list(default_headers) + [
     'accept-language',
 ]
-
-# Activate Django-Heroku.
-django_heroku.settings(locals())
 
 DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
