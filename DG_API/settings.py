@@ -106,34 +106,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'DG_API.wsgi.application'
 
-# Activate Django-Heroku.
-django_heroku.settings(locals())
-
-
-# Database
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'dg-app-db',
-        'USER': DB_UN,
-        'PASSWORD': DB_PW,
-        'HOST': DATABASE_URL,
-        'PORT': '5432',
-    }
-}
-
-# Cache
-# https://docs.djangoproject.com/en/3.2/topics/cache/
-
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
-        'LOCATION': 'dg_cache_table',
-    }
-}
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -178,6 +150,34 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+# Activate Django-Heroku.
+django_heroku.settings(locals())
+
+
+# Database
+# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': 'dg-app-db',
+        'USER': DB_UN,
+        'PASSWORD': DB_PW,
+        'HOST': DATABASE_URL,
+        'PORT': '5432',
+    }
+}
+
+# Cache
+# https://docs.djangoproject.com/en/3.2/topics/cache/
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'dg_cache_table',
+    }
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
