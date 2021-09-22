@@ -4,14 +4,14 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager
 
 # Create your models here.
 class UserManager(BaseUserManager):
-    def create_user(self, username, password=None):
-        user = self.model(username)
+    def create_user(self, username, email, password=None):
+        user = self.model(username=username, email=email)
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, username, password=None):
-        user = self.create_user(username, password=password,)
+    def create_superuser(self, username, email=None, password=None):
+        user = self.create_user(username, email, password=password,)
         user.is_admin = True
         user.save(using=self._db)
         return user
@@ -78,5 +78,3 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.username
-
-    
