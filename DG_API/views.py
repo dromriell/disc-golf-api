@@ -85,7 +85,7 @@ class PDGAPIView(APIView):
       start_date = f'start_date={today_date.isoformat()}'
       end_date = f'end_date={(today_date + datetime.timedelta(days=90)).isoformat()}'
       state = f'state={event_params.upper()}'
-      limit = 'limit=20'
+      limit = 'limit=7'
 
       api_connection = http.client.HTTPSConnection(PDGA_BASE_URL)
       headers = {
