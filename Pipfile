@@ -14,6 +14,7 @@ django-cors-headers = "*"
 whitenoise = "*"
 gunicorn = "*"
 django-heroku = "*"
+dj-database-url = "*"
 
 [requires]
 python_version = "3.8"
