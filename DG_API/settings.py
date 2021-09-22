@@ -29,6 +29,7 @@ PDGA_PW = os.environ['PDGA_PASSWORD']
 DATABASE_URL = os.environ['DATABASE_URL']
 DB_UN = os.environ['DB_USERNAME']
 DB_PW = os.environ['DB_PASSWORD']
+GDAL_LIBRARY_PATH = os.getenv('GDAL_LIBRARY_PATH')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -36,10 +37,12 @@ DEBUG = True
 ALLOWED_HOSTS = ['192.168.4.39']
 
 # GDAL Conditional path
-if os.name == 'nt':
-    VENV_BASE = os.environ['VIRTUAL_ENV']
-    os.environ['PATH'] = os.path.join(VENV_BASE, 'Lib\\site-packages\\osgeo') + ';' + os.environ['PATH']
-    os.environ['PROJ_LIB'] = os.path.join(VENV_BASE, 'Lib\\site-packages\\osgeo\\data\\proj') + ';' + os.environ['PATH']
+# if os.name == 'nt':
+#     VENV_BASE = os.environ['VIRTUAL_ENV']
+#     os.environ['PATH'] = os.path.join(VENV_BASE, 'Lib\\site-packages\\osgeo') + ';' + os.environ['PATH']
+#     os.environ['PROJ_LIB'] = os.path.join(VENV_BASE, 'Lib\\site-packages\\osgeo\\data\\proj') + ';' + os.environ['PATH']
+
+
 
 
 # Application definition
