@@ -37,16 +37,7 @@ conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.4.39']
-
-# GDAL Conditional path
-# if os.name == 'nt':
-#     VENV_BASE = os.environ['VIRTUAL_ENV']
-#     os.environ['PATH'] = os.path.join(VENV_BASE, 'Lib\\site-packages\\osgeo') + ';' + os.environ['PATH']
-#     os.environ['PROJ_LIB'] = os.path.join(VENV_BASE, 'Lib\\site-packages\\osgeo\\data\\proj') + ';' + os.environ['PATH']
-
-
-
+ALLOWED_HOSTS = ['dg-api-test.herokuapp.com']
 
 # Application definition
 
@@ -185,7 +176,6 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
     'accept-language',
 ]
 
-# DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())
@@ -204,3 +194,8 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+
+DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+
+
+print(DATABASES['default'])
