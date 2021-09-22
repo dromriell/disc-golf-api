@@ -1,1 +1,1 @@
-web: gunicorn disc-golf-api.wsgi
+web: gunicorn DG_API.wsgi
