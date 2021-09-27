@@ -107,7 +107,7 @@ class PDGAPIView(APIView):
       return Response(json_response)
 
    def search_courses_by_name(self, session_data):
-      search_term = self.request.query_params.get('searchTerm', None)
+      search_term = self.request.query_params.get('search-term', None)
 
       if search_term is None:
          auth_400_response = {'status': 400, 'error': 'No query parameters were found. Please provide a search term.'}
@@ -119,7 +119,7 @@ class PDGAPIView(APIView):
          }
       api_connection.request(
          'GET', 
-         f'/services/json/course_name?{search_term}', 
+         f'/services/json/course?course_name={search_term}', 
          None, 
          headers
          )
@@ -232,7 +232,8 @@ class PDGAPIView(APIView):
          'valid_params': {
             'login': 'Create a new session with the PDGA API',
             'logout': 'Terminate an existing session',
-            'events': 'Get all events in provided state over next 90 days',
-            'courses': 'Get nearest ten courses to coordinates provided.'
+            'events': 'Get all events in provided state over next 90 days. Requires a two character state_province code',
+            'courses': 'Get nearest ten courses to coordinates provided. Requires "lat" and "lng" params' ,
+            'courses-search': 'Search courses by name. Requires a "search-term" param'
             }
          })
