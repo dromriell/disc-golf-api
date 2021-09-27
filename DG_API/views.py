@@ -106,6 +106,45 @@ class PDGAPIView(APIView):
          return Response(auth_401_response)
       return Response(json_response)
 
+   def search_courses_by_name(self, session_data):
+      search_term = self.request.query_params.get('searchTerm', None)
+
+      if search_term is None:
+         auth_400_response = {'status': 400, 'error': 'No query parameters were found. Please provide a search term.'}
+         return Response(auth_400_response)
+
+      api_connection = http.client.HTTPSConnection(PDGA_BASE_URL)
+      headers = {
+            'Cookie': f'{session_data["session_name"]}={session_data["sessid"]}'
+         }
+      api_connection.request(
+         'GET', 
+         f'/services/json/course_name?{search_term}', 
+         None, 
+         headers
+         )
+
+      response = api_connection.getresponse()
+      str_response = response.read().decode()
+      json_response = json.loads(str_response)
+
+      for course in json_response['courses']:
+         try:
+            course_object = Course.objects.get(pdga_id=int(course['course_id']))
+            course['id'] = course_object.id
+            course['image_url'] = course_object.image_url
+            course['image_alt'] = course_object.image_alt
+         except Course.DoesNotExist:
+            course['id'] = None
+            course['image_url'] = None
+            course['image_alt'] = None
+            continue
+
+      if response.status == 401:
+         auth_401_response = {'status': response.status, 'error': json_response[0]}
+         return Response(auth_401_response)
+      return Response(json_response)
+
    def get_nearby_courses(self, session_data):
       """
       Requests the 10 nearest courses to a given location. Seperate 'lat' and 'lng'
@@ -163,6 +202,7 @@ class PDGAPIView(APIView):
       logout = self.request.query_params.get('logout', None)
       events = self.request.query_params.get('events', None)
       courses = self.request.query_params.get('courses', None)
+      courses_search = self.request.query_params.get('courses-search', None)
 
       if login is not None and not pdga_auth:
          return self.authenticate()
@@ -172,6 +212,8 @@ class PDGAPIView(APIView):
          return self.get_upcoming_events(pdga_auth, events)
       elif courses is not None and pdga_auth is not None:
          return self.get_nearby_courses(pdga_auth)
+      elif courses_search is not None and pdga_auth is not None:
+         return self.search_courses_by_name(pdga_auth)
 
       # Conditional check on connection to api
       if pdga_auth:
