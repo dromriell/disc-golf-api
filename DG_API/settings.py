@@ -29,7 +29,7 @@ PDGA_PW = os.environ['PDGA_PASSWORD']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.4.39']
+ALLOWED_HOSTS = ['192.168.4.39', 'localhost']
 
 # GDAL Conditional path
 if os.name == 'nt':
