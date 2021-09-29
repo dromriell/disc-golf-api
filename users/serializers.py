@@ -17,3 +17,9 @@ class UserSerializer(serializers.ModelSerializer):
     Token.objects.get_or_create(user=user)
     return user
 
+
+class UserProfileSerializer(serializers.ModelSerializer):
+   class Meta:
+      model = USER
+      fields = ['id', 'last_login', 'first_name', 'last_name', 'email', 'birth_day', 'state', 'username']
+
