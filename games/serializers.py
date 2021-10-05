@@ -7,7 +7,7 @@ from django.contrib.gis.geos import Point
 from rest_framework import serializers
 from .models import Game, ScoreCard, HoleScore, Stroke
 from courses.models import Course, Hole
-from courses.serializers import CourseSummarySerializer
+from courses.serializers import CourseSummarySerializer, HoleSerializer
 
 USER = get_user_model()
 
@@ -42,6 +42,7 @@ class GameStrokeSerializer(serializers.ModelSerializer):
 
 class GameHoleScoreSerializer(serializers.ModelSerializer):
    strokes = GameStrokeSerializer(many=True)
+   hole = HoleSerializer()
    class Meta:
       model = HoleScore
       fields = '__all__'
