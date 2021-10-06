@@ -101,9 +101,13 @@ class PDGAPIView(APIView):
       response = api_connection.getresponse()
       str_response = response.read().decode()
       json_response = json.loads(str_response)
+
       if response.status == 401:
          auth_401_response = {'status': response.status, 'error': json_response[0]}
          return Response(auth_401_response)
+      if isinstance(json_response, list) and json_response[0] == 'Access denied for user anonymous':
+         self.destroy_session(cache.get(PDGA_CACHE_KEY))
+         self.authenticate()
       return Response(json_response)
 
    def search_courses_by_name(self, session_data):
@@ -127,6 +131,11 @@ class PDGAPIView(APIView):
       response = api_connection.getresponse()
       str_response = response.read().decode()
       json_response = json.loads(str_response)
+
+      if isinstance(json_response, list) and json_response[0] == 'Access denied for user anonymous':
+         self.destroy_session(cache.get(PDGA_CACHE_KEY))
+         self.authenticate()
+         return Response(json_response)
 
       for course in json_response['courses']:
          try:
@@ -174,6 +183,11 @@ class PDGAPIView(APIView):
       response = api_connection.getresponse()
       str_response = response.read().decode()
       json_response = json.loads(str_response)
+
+      if isinstance(json_response, list) and json_response[0] == 'Access denied for user anonymous':
+         self.destroy_session(cache.get(PDGA_CACHE_KEY))
+         self.authenticate()
+         return Response(json_response)
 
       for course in json_response['courses']:
          try:
