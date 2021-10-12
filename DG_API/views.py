@@ -137,6 +137,10 @@ class PDGAPIView(APIView):
          self.authenticate()
          return Response(json_response)
 
+      if json_response['status'] == 1:
+         auth_400_response = {'status': 400, 'error': 'No results found.'}
+         return Response(auth_400_response)
+
       for course in json_response['courses']:
          try:
             course_object = Course.objects.get(pdga_id=int(course['course_id']))
