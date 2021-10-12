@@ -138,7 +138,7 @@ class PDGAPIView(APIView):
          return Response(json_response)
 
       if json_response['status'] == 1:
-         auth_400_response = {'status': 400, 'error': 'No results found.'}
+         auth_400_response = {'status': 400, 'msg': 'No results found.', 'courses': []}
          return Response(auth_400_response)
 
       for course in json_response['courses']:
