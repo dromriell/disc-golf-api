@@ -71,8 +71,10 @@ class User(AbstractUser):
         ('WI', 'Wisconsin'), 
         ('WY', 'Wyoming')
     ]
+    username=models.CharField(unique=True, max_length=30)
     birth_day = models.DateField(blank=True, null=True)
-    state = models.CharField(max_length=2, choices=STATE_CHOICES, default='KY')
+    state = models.CharField(max_length=2, choices=STATE_CHOICES, null=True)
+    email = models.EmailField(unique=True)
 
     objects = UserManager()
 
